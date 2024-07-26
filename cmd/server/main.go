@@ -1,7 +1,11 @@
 package main
 
-import "fmt"
+import (
+	"github.com/vucong2018/study-go/internal/routers"
+)
 
 func main() {
-	fmt.Printf("Start - go")
+	r := routers.NewRouter()
+  	r.Run()
 }
+
