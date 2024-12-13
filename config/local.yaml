@@ -1,12 +1,12 @@
 server:
-  port: 8082
-databases:
-  - user: admin
-    password: admin
-    host: localhost
-    dbName: shopDev
-  - user: guest
-    password: guest
-    host: localhost
-    dbName: guest
-  
+  port: 6969
+mysql:
+  host: 127.0.0.1
+  port: 33306
+  username: root
+  password: root1234
+  dbname: shopdevgo
+  maxIdleConns: 10
+  maxOpenConns: 100
+  connMaxLifetime: 3600
+
