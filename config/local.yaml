@@ -2,7 +2,7 @@ server:
   port: 6969
 mysql:
   host: 127.0.0.1
-  port: 33306
+  port: 3308
   username: root
   password: root1234
   dbname: shopdevgo
