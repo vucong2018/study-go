@@ -9,7 +9,13 @@ mysql:
   maxIdleConns: 10
   maxOpenConns: 100
   connMaxLifetime: 3600
-  
+
+redis:
+  host: 127.0.0.1
+  port: 6389
+  password:
+  database: 0
+
 logger:
   log_level: debug
   file_log_name: "./storage/logs/dev.001.log"
