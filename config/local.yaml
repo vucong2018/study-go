@@ -1,5 +1,6 @@
 server:
   port: 6969
+  mode: "dev"
 mysql:
   host: 127.0.0.1
   port: 3308
@@ -21,5 +22,5 @@ logger:
   file_log_name: "./storage/logs/dev.001.log"
   max_size:    500 
   max_backups: 3
-  max_age:     28,  
+  max_age:     28 
   compress:   true

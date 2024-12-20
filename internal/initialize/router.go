@@ -1,41 +1,40 @@
 package initialize
 
 import (
-	"fmt"
-
 	"github.com/gin-gonic/gin"
-	c "github.com/vucong2018/study-go/internal/controller"
-	"github.com/vucong2018/study-go/internal/middlewares"
+	"github.com/vucong2018/study-go/global"
+	"github.com/vucong2018/study-go/internal/routers"
 )
 
-func AA() gin.HandlerFunc {
-	return func(ctx *gin.Context) {
-		fmt.Println("BEFORE -->> AA")
-		ctx.Next()
-		fmt.Println("AFTER -->> AA")
-	}
-}
-func BB() gin.HandlerFunc {
-	return func(ctx *gin.Context) {
-		fmt.Println("BEFORE -->> BB")
-		ctx.Next()
-		fmt.Println("AFTER -->> BB")
-	}
-}
-
-func CC(ctx *gin.Context) {
-	fmt.Println("BEFORE -->> CC")
-	ctx.Next()
-	fmt.Println("AFTER -->> CC")
-}
-
 func InitRouter() *gin.Engine {
-	r := gin.Default()
-	r.Use(middlewares.AuthenMiddleware(), BB(), CC)
-	v1 := r.Group("/v1/2024")
+	// r := gin.Default()
+	var r *gin.Engine
+	if global.Config.Server.Mode == "dev" {
+		gin.SetMode(gin.DebugMode)
+		gin.ForceConsoleColor()
+		r = gin.Default()
+	} else {
+		gin.SetMode(gin.ReleaseMode)
+		r = gin.New()
+	}
+	// middlewares
+	// r.Use() // logging
+	// r.Use() //cross
+	// r.Use() // limmiter global
+	manageRouter := routers.RouterGroupApp.Manage
+	userRouter := routers.RouterGroupApp.User
+
+	MainGroup := r.Group("/v1/2024")
 	{
-		v1.GET("/ping", c.NewPongController().Pong)
-		v1.GET("/user/1", c.NewUserController().GetUserById)
+		MainGroup.GET("/check-status")
+	}
+	{
+		userRouter.InitRouterUser(MainGroup)
+		userRouter.IntProductRouter(MainGroup)
+	}
+	{
+		manageRouter.InitRouterAdmin(MainGroup)
+		manageRouter.InitRouterUser(MainGroup)
 	}
 	return r
 }
