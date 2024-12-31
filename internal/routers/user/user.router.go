@@ -2,9 +2,7 @@ package user
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/vucong2018/study-go/internal/controller"
-	"github.com/vucong2018/study-go/internal/repo"
-	"github.com/vucong2018/study-go/internal/service"
+	"github.com/vucong2018/study-go/internal/wire"
 )
 
 type UserRouter struct{}
@@ -13,12 +11,14 @@ func (pr *UserRouter) InitRouterUser(Router *gin.RouterGroup) {
 	// public router
 
 	// Non dependendcy
-	ur := repo.NewUserRepository()
-	us := service.NewUserService(ur)
-	userHandlerNondependency := controller.NewUserController(us)
+	// ur := repo.NewUserRepository()
+	// us := service.NewUserService(ur)
+	// userHandlerNondependency := controller.NewUserController(us)
+
+	userController, _ := wire.InitUserRouterHandler()
 	userRouterPublic := Router.Group("/user")
 	{
-		userRouterPublic.POST("/register", userHandlerNondependency.Register)
+		userRouterPublic.POST("/register", userController.Register)
 		userRouterPublic.POST("/otp")
 	}
 	//private router
